@@ -58,6 +58,7 @@ Blockly.Procedures.allProcedures = function(root) {
         if (tuple[2]) {
           proceduresReturn.push(tuple);
         } else {
+          proceduresReturn.push(tuple);
           proceduresNoReturn.push(tuple);
         }
       }
