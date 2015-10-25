@@ -53,6 +53,8 @@ Blockly.Blocks['procedures_defnoreturn'] = {
     this.arguments_ = [];
     this.setStatements_(true);
     this.statementConnection_ = null;
+    this.setNextStatement(true);
+    this.setPreviousStatement(true);
   },
   /**
    * Add or remove the statement block from this function definition.
