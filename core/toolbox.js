@@ -66,8 +66,8 @@ Blockly.Toolbox.prototype.width = 0;
 Blockly.Toolbox.prototype.selectedOption_ = null;
 
 /**
- * The SVG group currently selected.
- * @type {*}
+ * The tree node most recently selected.
+ * @type {goog.ui.tree.BaseNode}
  * @private
  */
 Blockly.Toolbox.prototype.lastCategory_ = null;
@@ -99,7 +99,7 @@ Blockly.Toolbox.prototype.init = function() {
 
   // Create an HTML container for the Toolbox menu.
   this.HtmlDiv = goog.dom.createDom('div', 'blocklyToolboxDiv');
-  this.HtmlDiv.setAttribute('dir', this.workspace_.RTL ? 'RTL' : 'LTR');
+  this.HtmlDiv.setAttribute('dir', workspace.RTL ? 'RTL' : 'LTR');
   document.body.appendChild(this.HtmlDiv);
 
   // Clicking on toolbar closes popups.
@@ -114,8 +114,10 @@ Blockly.Toolbox.prototype.init = function() {
         }
       });
   var workspaceOptions = {
+    disabledPatternId: workspace.options.disabledPatternId,
     parentWorkspace: workspace,
-    RTL: workspace.RTL
+    RTL: workspace.RTL,
+    svg: workspace.options.svg
   };
   /**
    * @type {!Blockly.Flyout}
@@ -127,7 +129,7 @@ Blockly.Toolbox.prototype.init = function() {
 
   this.CONFIG_['cleardotPath'] = workspace.options.pathToMedia + '1x1.gif';
   this.CONFIG_['cssCollapsedFolderIcon'] =
-      'blocklyTreeIconClosed' + (this.workspace_.RTL ? 'Rtl' : 'Ltr');
+      'blocklyTreeIconClosed' + (workspace.RTL ? 'Rtl' : 'Ltr');
   var tree = new Blockly.Toolbox.TreeControl(this, this.CONFIG_);
   this.tree_ = tree;
   tree.setShowRootNode(false);
@@ -136,6 +138,7 @@ Blockly.Toolbox.prototype.init = function() {
   tree.setSelectedItem(null);
   this.populate_(workspace.options.languageTree);
   tree.render(this.HtmlDiv);
+  this.addColour_();
   this.position();
 };
 
@@ -146,6 +149,8 @@ Blockly.Toolbox.prototype.dispose = function() {
   this.flyout_.dispose();
   this.tree_.dispose();
   goog.dom.removeNode(this.HtmlDiv);
+  this.workspace_ = null;
+  this.lastCategory_ = null;
 };
 
 /**
@@ -161,7 +166,8 @@ Blockly.Toolbox.prototype.position = function() {
   var svgPosition = goog.style.getPageOffset(svg);
   var svgSize = Blockly.svgSize(svg);
   if (this.workspace_.RTL) {
-    treeDiv.style.left = (svgPosition.x + svgSize.width - treeDiv.offsetWidth) + 'px';
+    treeDiv.style.left =
+        (svgPosition.x + svgSize.width - treeDiv.offsetWidth) + 'px';
   } else {
     treeDiv.style.left = svgPosition.x + 'px';
   }
@@ -177,12 +183,14 @@ Blockly.Toolbox.prototype.position = function() {
 
 /**
  * Fill the toolbox with categories and blocks.
+ * @param {Node} newTree DOM tree of blocks, or null.
  * @private
  */
 Blockly.Toolbox.prototype.populate_ = function(newTree) {
   var rootOut = this.tree_;
   rootOut.removeChildren();  // Delete any existing content.
   rootOut.blocks = [];
+  var hasColours = false;
   function syncTrees(treeIn, treeOut) {
     for (var i = 0, childIn; childIn = treeIn.childNodes[i]; i++) {
       if (!childIn.tagName) {
@@ -193,9 +201,6 @@ Blockly.Toolbox.prototype.populate_ = function(newTree) {
         case 'CATEGORY':
           var childOut = rootOut.createNode(childIn.getAttribute('name'));
           childOut.blocks = [];
-          if (childIn.getAttribute('expanded') == 'true') {
-            childOut.setExpanded(true);
-          }
           treeOut.add(childOut);
           var custom = childIn.getAttribute('custom');
           if (custom) {
@@ -204,17 +209,34 @@ Blockly.Toolbox.prototype.populate_ = function(newTree) {
           } else {
             syncTrees(childIn, childOut);
           }
+          var hue = childIn.getAttribute('colour');
+          if (goog.isString(hue)) {
+            childOut.hexColour = Blockly.makeColour(hue);
+            hasColours = true;
+          } else {
+            childOut.hexColour = '';
+          }
+          if (childIn.getAttribute('expanded') == 'true') {
+            if (childOut.blocks.length) {
+              rootOut.setSelectedItem(childOut);
+            }
+            childOut.setExpanded(true);
+          } else {
+            childOut.setExpanded(false);
+          }
           break;
         case 'SEP':
           treeOut.add(new Blockly.Toolbox.TreeSeparator());
           break;
         case 'BLOCK':
+        case 'SHADOW':
           treeOut.blocks.push(childIn);
           break;
       }
     }
   }
   syncTrees(newTree, this.tree_);
+  this.hasColours_ = hasColours;
 
   if (rootOut.blocks.length) {
     throw 'Toolbox cannot have both blocks and categories in the root level.';
@@ -222,6 +244,33 @@ Blockly.Toolbox.prototype.populate_ = function(newTree) {
 
   // Fire a resize event since the toolbox may have changed width and height.
   Blockly.fireUiEvent(window, 'resize');
+};
+
+/**
+ * Recursively add colours to this toolbox.
+ * @param {Blockly.Toolbox.TreeNode} opt_tree Starting point of tree.
+ *     Defaults to the root node.
+ * @private
+ */
+Blockly.Toolbox.prototype.addColour_ = function(opt_tree) {
+  var tree = opt_tree || this.tree_;
+  var children = tree.getChildren();
+  for (var i = 0, child; child = children[i]; i++) {
+    var element = child.getRowElement();
+    if (element) {
+      if (this.hasColours_) {
+        var border = '8px solid ' + (child.hexColour || '#ddd');
+      } else {
+        var border = 'none';
+      }
+      if (this.workspace_.RTL) {
+        element.style.borderRight = border;
+      } else {
+        element.style.borderLeft = border;
+      }
+    }
+    this.addColour_(child);
+  }
 };
 
 /**
@@ -317,21 +366,33 @@ Blockly.Toolbox.TreeControl.prototype.createNode = function(opt_html) {
  */
 Blockly.Toolbox.TreeControl.prototype.setSelectedItem = function(node) {
   Blockly.removeAllRanges();
-  if (this.selectedItem_ == node) {
+  var toolbox = this.toolbox_;
+  if (node == this.selectedItem_ || node == toolbox.tree_) {
     return;
   }
+  if (toolbox.lastCategory_) {
+    toolbox.lastCategory_.getRowElement().style.backgroundColor = '';
+  }
+  if (node) {
+    var hexColour = node.hexColour || '#57e';
+    node.getRowElement().style.backgroundColor = hexColour;
+    // Add colours to child nodes which may have been collapsed and thus
+    // not rendered.
+    toolbox.addColour_(node);
+  }
   goog.ui.tree.TreeControl.prototype.setSelectedItem.call(this, node);
-  var toolbox = this.toolbox_;
   if (node && node.blocks && node.blocks.length) {
     toolbox.flyout_.show(node.blocks);
     // Scroll the flyout to the top if the category has changed.
-    if (toolbox.lastCategory_ != node.blocks) {
+    if (toolbox.lastCategory_ != node) {
       toolbox.flyout_.scrollToTop();
-      toolbox.lastCategory_ = node.blocks;
     }
   } else {
     // Hide the flyout.
     toolbox.flyout_.hide();
+  }
+  if (node) {
+    toolbox.lastCategory_ = node;
   }
 };
 
@@ -401,7 +462,7 @@ Blockly.Toolbox.TreeNode.prototype.onDoubleClick_ = function(e) {
 /**
  * A blank separator node in the tree.
  * @constructor
- * @extends {Blockly.Toolbox.prototype.TreeNode}
+ * @extends {Blockly.Toolbox.TreeNode}
  */
 Blockly.Toolbox.TreeSeparator = function() {
   Blockly.Toolbox.TreeNode.call(this, null, '',

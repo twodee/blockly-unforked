@@ -29,41 +29,10 @@ goog.provide('Blockly.Blocks.loops');
 goog.require('Blockly.Blocks');
 
 
+/**
+ * Common HSV hue for all blocks in this category.
+ */
 Blockly.Blocks.loops.HUE = 120;
-
-Blockly.Blocks['controls_repeat'] = {
-  /**
-   * Block for repeat n times (internal number).
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message": Blockly.Msg.CONTROLS_REPEAT_TITLE + " %2 " +
-          Blockly.Msg.CONTROLS_REPEAT_INPUT_DO + " %3",
-      "args": [
-        {
-          "type": "field_input",
-          "name": "TIMES",
-          "text": "10"
-        },
-        {
-          "type": "input_dummy"
-        },
-        {
-          "type": "input_statement",
-          "name": "DO"
-        }
-      ],
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Blockly.Blocks.loops.HUE,
-      "tooltip": Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
-      "helpUrl": Blockly.Msg.CONTROLS_REPEAT_HELPURL
-    });
-    this.getField_('TIMES').setChangeHandler(
-        Blockly.FieldTextInput.nonnegativeIntegerValidator);
-  }
-};
 
 Blockly.Blocks['controls_repeat_ext'] = {
   /**
@@ -72,20 +41,12 @@ Blockly.Blocks['controls_repeat_ext'] = {
    */
   init: function() {
     this.jsonInit({
-      "message": Blockly.Msg.CONTROLS_REPEAT_TITLE + " %2 " +
-          Blockly.Msg.CONTROLS_REPEAT_INPUT_DO + " %3",
-      "args": [
+      "message0": Blockly.Msg.CONTROLS_REPEAT_TITLE,
+      "args0": [
         {
           "type": "input_value",
           "name": "TIMES",
           "check": "Number"
-        },
-        {
-          "type": "input_dummy"
-        },
-        {
-          "type": "input_statement",
-          "name": "DO"
         }
       ],
       "previousStatement": null,
@@ -94,6 +55,37 @@ Blockly.Blocks['controls_repeat_ext'] = {
       "tooltip": Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
       "helpUrl": Blockly.Msg.CONTROLS_REPEAT_HELPURL
     });
+    this.appendStatementInput('DO')
+        .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
+  }
+};
+
+Blockly.Blocks['controls_repeat'] = {
+  /**
+   * Block for repeat n times (internal number).
+   * The 'controls_repeat_ext' block is preferred as it is more flexible.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.CONTROLS_REPEAT_TITLE,
+      "args0": [
+        {
+          "type": "field_input",
+          "name": "TIMES",
+          "text": "10"
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Blocks.loops.HUE,
+      "tooltip": Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
+      "helpUrl": Blockly.Msg.CONTROLS_REPEAT_HELPURL
+    });
+    this.appendStatementInput('DO')
+        .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
+    this.getField('TIMES').setChangeHandler(
+        Blockly.FieldTextInput.nonnegativeIntegerValidator);
   }
 };
 
@@ -135,8 +127,8 @@ Blockly.Blocks['controls_for'] = {
    */
   init: function() {
     this.jsonInit({
-      "message": Blockly.Msg.CONTROLS_FOR_TITLE,
-      "args": [
+      "message0": Blockly.Msg.CONTROLS_FOR_TITLE,
+      "args0": [
         {
           "type": "field_variable",
           "name": "VAR",
@@ -151,6 +143,7 @@ Blockly.Blocks['controls_for'] = {
         {
           "type": "input_value",
           "name": "TO",
+          "check": "Number",
           "align": "RIGHT"
         },
         {
@@ -222,8 +215,8 @@ Blockly.Blocks['controls_forEach'] = {
    */
   init: function() {
     this.jsonInit({
-      "message": Blockly.Msg.CONTROLS_FOREACH_TITLE,
-      "args": [
+      "message0": Blockly.Msg.CONTROLS_FOREACH_TITLE,
+      "args0": [
         {
           "type": "field_variable",
           "name": "VAR",
@@ -303,12 +296,8 @@ Blockly.Blocks['controls_flow_statements'] = {
    * @this Blockly.Block
    */
   onchange: function() {
-    if (!this.workspace) {
-      // Block has been deleted.
-      return;
-    }
     var legal = false;
-    // Is the block nested in a control statement?
+    // Is the block nested in a loop?
     var block = this;
     do {
       if (block.type == 'controls_repeat' ||
