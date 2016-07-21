@@ -26,8 +26,7 @@
 
 goog.provide('Blockly.Variables');
 
-// TODO(scr): Fix circular dependencies
-// goog.require('Blockly.Block');
+goog.require('Blockly.Blocks');
 goog.require('Blockly.Workspace');
 goog.require('goog.string');
 
@@ -55,15 +54,13 @@ Blockly.Variables.allVariables = function(root) {
   }
   var variableHash = Object.create(null);
   // Iterate through every block and add each variable to the hash.
-  for (var x = 0; x < blocks.length; x++) {
-    if (blocks[x].getVars) {
-      var blockVariables = blocks[x].getVars();
-      for (var y = 0; y < blockVariables.length; y++) {
-        var varName = blockVariables[y];
-        // Variable name may be null if the block is only half-built.
-        if (varName) {
-          variableHash[varName.toLowerCase()] = varName;
-        }
+  for (var i = 0; i < blocks.length; i++) {
+    var blockVariables = blocks[i].getVars();
+    for (var j = 0; j < blockVariables.length; j++) {
+      var varName = blockVariables[j];
+      // Variable name may be null if the block is only half-built.
+      if (varName) {
+        variableHash[varName.toLowerCase()] = varName;
       }
     }
   }
@@ -82,13 +79,13 @@ Blockly.Variables.allVariables = function(root) {
  * @param {!Blockly.Workspace} workspace Workspace rename variables in.
  */
 Blockly.Variables.renameVariable = function(oldName, newName, workspace) {
+  Blockly.Events.setGroup(true);
   var blocks = workspace.getAllBlocks();
   // Iterate through every block.
   for (var i = 0; i < blocks.length; i++) {
-    if (blocks[i].renameVar) {
-      blocks[i].renameVar(oldName, newName);
-    }
+    blocks[i].renameVar(oldName, newName);
   }
+  Blockly.Events.setGroup(false);
 };
 
 /**
@@ -111,12 +108,12 @@ Blockly.Variables.flyoutCategory = function(workspace) {
       // <block type="variables_set" gap="8">
       //   <field name="VAR">item</field>
       // </block>
-      var block = goog.dom.createDom('block');
+      var block = goog.dom.createUntypedDom('block');
       block.setAttribute('type', 'variables_set');
       if (Blockly.Blocks['variables_get']) {
         block.setAttribute('gap', 8);
       }
-      var field = goog.dom.createDom('field', null, variableList[i]);
+      var field = goog.dom.createUntypedDom('field', null, variableList[i]);
       field.setAttribute('name', 'VAR');
       block.appendChild(field);
       xmlList.push(block);
@@ -125,12 +122,12 @@ Blockly.Variables.flyoutCategory = function(workspace) {
       // <block type="variables_get" gap="24">
       //   <field name="VAR">item</field>
       // </block>
-      var block = goog.dom.createDom('block');
+      var block = goog.dom.createUntypedDom('block');
       block.setAttribute('type', 'variables_get');
       if (Blockly.Blocks['variables_set']) {
         block.setAttribute('gap', 24);
       }
-      var field = goog.dom.createDom('field', null, variableList[i]);
+      var field = goog.dom.createUntypedDom('field', null, variableList[i]);
       field.setAttribute('name', 'VAR');
       block.appendChild(field);
       xmlList.push(block);
