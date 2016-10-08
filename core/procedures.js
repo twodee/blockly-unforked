@@ -196,6 +196,8 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
       //     <arg name="x"></arg>
       //   </mutation>
       // </block>
+
+      // Add a statement version.
       var block = goog.dom.createDom('block');
       block.setAttribute('type', templateName);
       block.setAttribute('gap', 16);
@@ -208,12 +210,29 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
         mutation.appendChild(arg);
       }
       xmlList.push(block);
+
+      // Add an expression version.
+      block = goog.dom.createDom('block');
+      block.setAttribute('type', templateName);
+      block.setAttribute('gap', 16);
+      var mutation = goog.dom.createDom('mutation');
+      mutation.setAttribute('name', name);
+      mutation.setAttribute('isexpression', true);
+      block.appendChild(mutation);
+      for (var j = 0; j < args.length; j++) {
+        var arg = goog.dom.createDom('arg');
+        arg.setAttribute('name', args[j]);
+        mutation.appendChild(arg);
+      }
+      console.log(block);
+      xmlList.push(block);
     }
   }
 
   var tuple = Blockly.Procedures.allProcedures(workspace);
   populateProcedures(tuple[0], 'procedures_callnoreturn');
-  populateProcedures(tuple[1], 'procedures_callreturn');
+  // I dispense with the callreturn/defreturn, since blocks are amphibious.
+  // populateProcedures(tuple[1], 'procedures_callreturn');
   return xmlList;
 };
 
