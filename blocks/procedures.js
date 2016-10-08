@@ -33,6 +33,10 @@ goog.require('Blockly.Blocks');
  * Common HSV hue for all blocks in this category.
  */
 Blockly.Blocks.procedures.HUE = 290;
+Blockly.Blocks.procedures.DEF_RETURN_HUE = null;
+Blockly.Blocks.procedures.DEF_NO_RETURN_HUE = null;
+Blockly.Blocks.procedures.CALL_RETURN_HUE = null;
+Blockly.Blocks.procedures.CALL_NO_RETURN_HUE = null;
 
 Blockly.Blocks['procedures_defnoreturn'] = {
   /**
@@ -54,7 +58,9 @@ Blockly.Blocks['procedures_defnoreturn'] = {
         Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT) {
       this.setCommentText(Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT);
     }
-    this.setColour(Blockly.Blocks.procedures.HUE);
+    this.setColour(Blockly.Blocks.procedures.DEF_NO_RETURN_HUE === null ?
+        Blockly.Blocks.procedures.HUE :
+        Blockly.Blocks.procedures.DEF_NO_RETURN_HUE);
     this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
     this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
     this.arguments_ = [];
@@ -352,7 +358,9 @@ Blockly.Blocks['procedures_defreturn'] = {
         Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT) {
       this.setCommentText(Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT);
     }
-    this.setColour(Blockly.Blocks.procedures.HUE);
+    this.setColour(Blockly.Blocks.procedures.DEF_RETURN_HUE === null ?
+        Blockly.Blocks.procedures.HUE :
+        Blockly.Blocks.procedures.DEF_RETURN_HUE);
     this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
     this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
     this.arguments_ = [];
@@ -460,7 +468,9 @@ Blockly.Blocks['procedures_callnoreturn'] = {
         .appendField(this.id, 'NAME');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setColour(Blockly.Blocks.procedures.HUE);
+    this.setColour(Blockly.Blocks.procedures.CALL_NO_RETURN_HUE === null ?
+        Blockly.Blocks.procedures.HUE :
+        Blockly.Blocks.procedures.CALL_NO_RETURN_HUE);
     // Tooltip is set in renameProcedure.
     this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLNORETURN_HELPURL);
     this.arguments_ = [];
@@ -772,7 +782,9 @@ Blockly.Blocks['procedures_callreturn'] = {
     this.appendDummyInput('TOPROW')
         .appendField('', 'NAME');
     this.setOutput(true);
-    this.setColour(Blockly.Blocks.procedures.HUE);
+    this.setColour(Blockly.Blocks.procedures.CALL_RETURN_HUE === null ?
+        Blockly.Blocks.procedures.HUE :
+        Blockly.Blocks.procedures.CALL_RETURN_HUE);
     // Tooltip is set in domToMutation.
     this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLRETURN_HELPURL);
     this.arguments_ = [];
