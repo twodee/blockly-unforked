@@ -271,6 +271,9 @@ Blockly.Procedures.mutateCallers = function(defBlock) {
   for (var i = 0, caller; caller = callers[i]; i++) {
     var oldMutationDom = caller.mutationToDom();
     var oldMutation = oldMutationDom && Blockly.Xml.domToText(oldMutationDom);
+    // Preserve the callers expression/statement status, which would otherwise be reset
+    // statement.
+    xmlElement.setAttribute("isexpression", oldMutationDom.getAttribute("isexpression"));
     caller.domToMutation(xmlElement);
     var newMutationDom = caller.mutationToDom();
     var newMutation = newMutationDom && Blockly.Xml.domToText(newMutationDom);
