@@ -258,6 +258,8 @@ Blockly.Workspace.prototype.renameVariable = function(oldName, newName) {
     this.variableList[variableIndex] = newName;
   } else if (variableIndex != -1 && newVariableIndex != -1) {
     // Renaming one existing variable to another existing variable.
+    // The case might have changed, so we update the destination name.
+    this.variableList[newVariableIndex] = newName;
     this.variableList.splice(variableIndex, 1);
   } else {
     this.variableList.push(newName);
