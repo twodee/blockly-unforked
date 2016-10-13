@@ -199,7 +199,7 @@ Blockly.Workspace.prototype.clear = function() {
     Blockly.Events.setGroup(false);
   }
 
-  this.variableList.length = 0;
+  this.variableList = Blockly.Variables.allUsedVariables(this); // TODO
 };
 
 /**
