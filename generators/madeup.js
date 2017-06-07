@@ -180,7 +180,7 @@ Blockly.Madeup['procedures_defnoreturn'] = function(block) {
     args[x] = Blockly.Madeup.variableDB_.getName(block.arguments_[x], Blockly.Variables.NAME_TYPE);
   }
 
-  var code = 'to ' + funcName + ' ' + args.join(' ') + '\n' + branch + 'end';
+  var code = 'to ' + funcName + ' ' + args.join(', ') + '\n' + branch + 'end';
   return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
 };
 

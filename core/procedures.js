@@ -51,6 +51,7 @@ Blockly.Procedures.allProcedures = function(root) {
   var proceduresNoReturn = [];
   for (var i = 0; i < blocks.length; i++) {
     if (blocks[i].getProcedureDef) {
+      console.log(blocks[i]);
       var tuple = blocks[i].getProcedureDef();
       if (tuple) {
         if (tuple[2]) {
@@ -90,6 +91,9 @@ Blockly.Procedures.findLegalName = function(name, block) {
     // Flyouts can have multiple procedures called 'do something'.
     return name;
   }
+  console.trace();
+  console.log(name);
+  console.log(block);
   while (!Blockly.Procedures.isLegalName_(name, block.workspace, block)) {
     // Collision with another procedure.
     var r = name.match(/^(.*?)(\d+)$/);
@@ -189,6 +193,7 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
 
   function populateProcedures(procedureList, templateName) {
     for (var i = 0; i < procedureList.length; i++) {
+      console.log("procedureList[i]: " + procedureList[i][0]);
       var name = procedureList[i][0];
       var args = procedureList[i][1];
       // <block type="procedures_callnoreturn" gap="16">
@@ -209,6 +214,8 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
         arg.setAttribute('name', args[j]);
         mutation.appendChild(arg);
       }
+      console.log("stat");
+      console.log(block);
       xmlList.push(block);
 
       // Add an expression version.
@@ -224,6 +231,7 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
         arg.setAttribute('name', args[j]);
         mutation.appendChild(arg);
       }
+      console.log("expr");
       console.log(block);
       xmlList.push(block);
     }
@@ -297,7 +305,9 @@ Blockly.Procedures.mutateCallers = function(defBlock) {
  */
 Blockly.Procedures.getDefinition = function(name, workspace) {
   // Assume that a procedure definition is a top block.
-  var blocks = workspace.getTopBlocks(false);
+  // var blocks = workspace.getTopBlocks(false);
+  // We can't assume that in Madeup.
+  var blocks = workspace.getAllBlocks();
   for (var i = 0; i < blocks.length; i++) {
     if (blocks[i].getProcedureDef) {
       var tuple = blocks[i].getProcedureDef();

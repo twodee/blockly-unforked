@@ -6,6 +6,8 @@ Blockly.Blocks.madeup.LITERAL_HUE = 315;
 Blockly.Blocks.madeup.STATEMENT_HUE = 180;
 
 function setStatementExpression(block, isExpression) {
+  console.trace();
+  console.log("block: " + block);
   var isExpressionAlready = !!block.outputConnection;
   if (isExpression != isExpressionAlready) {
     block.unplug(true, true);
@@ -13,12 +15,12 @@ function setStatementExpression(block, isExpression) {
       block.setPreviousStatement(false);
       block.setNextStatement(false);
       block.setOutput(true);
-      block.setColour(EXPRESSION_HUE);
+      block.setColour(Blockly.Blocks.madeup.EXPRESSION_HUE);
     } else {
       block.setOutput(false);
       block.setPreviousStatement(true);
       block.setNextStatement(true);
-      block.setColour(STATEMENT_HUE);
+      block.setColour(Blockly.Blocks.madeup.STATEMENT_HUE);
     }
   }
 }
@@ -733,6 +735,31 @@ var block_definitions = {
       function (block) {
         var dropdown_boolean = block.getFieldValue('BOOLEAN');
         var code = dropdown_boolean.toLowerCase();
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
+  'madeup_mirror': {
+    config:
+      {
+        "message0": "mirror path %1 axis %2 point %3",
+        "args0": [
+          { "type": "input_value", "align": "RIGHT", "name": "PATH", "check": ["Path"] },
+          { "type": "input_value", "align": "RIGHT", "name": "AXIS", "check": ["Array"] },
+          { "type": "input_value", "align": "RIGHT", "name": "POINT", "check": ["Array"] }
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var path = Blockly.Madeup.valueToCode(block, 'PATH', Blockly.Madeup.ORDER_FUNCTION_CALL_FIRST_PARAMETER);
+        var axis = Blockly.Madeup.valueToCode(block, 'AXIS', Blockly.Madeup.ORDER_FUNCTION_CALL_NOT_FIRST_PARAMETER);
+        var point = Blockly.Madeup.valueToCode(block, 'POINT', Blockly.Madeup.ORDER_FUNCTION_CALL_NOT_FIRST_PARAMETER);
+        var code = 'mirror ' + path + ', ' + axis + ', ' + point;
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
