@@ -281,6 +281,21 @@ var block_definitions = {
         return generateInMode(block, code, Blockly.Madeup.ORDER_FUNCTION_CALL);
       }
   },
+  'madeup_random01': {
+    config:
+      {
+        "message0": "random01",
+        "output": ["Real"],
+        "colour": Blockly.Blocks.madeup.EXPRESSION_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var code = 'random01';
+        return generateInMode(block, code, Blockly.Madeup.ORDER_FUNCTION_CALL);
+      }
+  },
   'madeup_atan2': {
     config:
       {
@@ -763,6 +778,29 @@ var block_definitions = {
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
+  'madeup_polarto': {
+    config:
+      {
+        "message0": "polarto radius %1 angle %2",
+        "args0": [
+          { "type": "input_value", "align": "RIGHT", "name": "RADIUS", "check": ["Real", "Integer"] },
+          { "type": "input_value", "align": "RIGHT", "name": "ANGLE", "check": ["Real", "Integer"] },
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var value_radius = Blockly.Madeup.valueToCode(block, 'RADIUS', Blockly.Madeup.ORDER_FUNCTION_CALL_FIRST_PARAMETER);
+        var value_angle = Blockly.Madeup.valueToCode(block, 'ANGLE', Blockly.Madeup.ORDER_FUNCTION_CALL_NOT_FIRST_PARAMETER);
+        var code = 'polarto ' + value_radius + ', ' + value_angle;
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
   'madeup_moveto': {
     config:
       {
@@ -1114,6 +1152,22 @@ var block_definitions = {
       function (block) {
         var value_message = Blockly.Madeup.valueToCode(block, 'OBJECT', Blockly.Madeup.ORDER_FUNCTION_CALL_ONLY_PARAMETER);
         var code = 'echo ' + value_message;
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
+  'madeup_path': {
+    config:
+      {
+        "message0": "path",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var code = 'path';
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
