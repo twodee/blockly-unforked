@@ -6,8 +6,6 @@ Blockly.Blocks.madeup.LITERAL_HUE = 315;
 Blockly.Blocks.madeup.STATEMENT_HUE = 180;
 
 function setStatementExpression(block, isExpression) {
-  console.trace();
-  console.log("block: " + block);
   var isExpressionAlready = !!block.outputConnection;
   if (isExpression != isExpressionAlready) {
     block.unplug(true, true);
