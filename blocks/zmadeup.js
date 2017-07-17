@@ -5,6 +5,23 @@ Blockly.Blocks.madeup.EXPRESSION_HUE = 210;
 Blockly.Blocks.madeup.LITERAL_HUE = 315;
 Blockly.Blocks.madeup.STATEMENT_HUE = 180;
 
+function getBlocklyProcedureFormals(name) {
+  // allProcedures gives back [procedures with return, procedures without
+  // return]. We only have the latter.
+
+  var procs = Blockly.Procedures.allProcedures(blocklyWorkspace)[0];
+  // TODO
+
+  // Find the procedure in the list with the given name.
+  for (var i = 0; i < procs.length; ++i) {
+    if (procs[i][0] == name) {
+      return procs[i][1];
+    }
+  }
+
+  throw 'No procedure named ' + name;
+}
+
 function setStatementExpression(block, isExpression) {
   var isExpressionAlready = !!block.outputConnection;
   if (isExpression != isExpressionAlready) {
@@ -21,9 +38,6 @@ function setStatementExpression(block, isExpression) {
       block.setColour(Blockly.Blocks.madeup.STATEMENT_HUE);
     }
   }
-}
-
-function extractBlock(options) {
 }
 
 function contextMenuPlusPlus(options) {
@@ -776,6 +790,27 @@ var block_definitions = {
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
+  'madeup_look': {
+    config:
+      {
+        "message0": "look view %1",
+        "args0": [
+          { "type": "input_value", "align": "RIGHT", "name": "VIEW", "check": "Camera" }
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var value_view = Blockly.Madeup.valueToCode(block, 'VIEW', Blockly.Madeup.ORDER_FUNCTION_CALL_FIRST_PARAMETER);
+        var code = 'look ' + value_view;
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
   'madeup_polarto': {
     config:
       {
@@ -1192,13 +1227,29 @@ var block_definitions = {
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
+  'madeup_view': {
+    config:
+      {
+        "message0": "view",
+        "inputsInline": true,
+        "output": "Camera",
+        "colour": Blockly.Blocks.madeup.EXPRESSION_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var code = 'view';
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
   'madeup_where': {
     config:
       {
         "message0": "where",
         "inputsInline": true,
         "output": "Array",
-        "colour": Blockly.Blocks.madeup.LITERAL_HUE,
+        "colour": Blockly.Blocks.madeup.EXPRESSION_HUE,
         "tooltip": "",
         "helpUrl": "http://www.example.com/"
       },
