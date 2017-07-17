@@ -5,11 +5,11 @@ Blockly.Blocks.madeup.EXPRESSION_HUE = 210;
 Blockly.Blocks.madeup.LITERAL_HUE = 315;
 Blockly.Blocks.madeup.STATEMENT_HUE = 180;
 
-function getBlocklyProcedureFormals(name) {
+function getBlocklyProcedureFormals(workspace, name) {
   // allProcedures gives back [procedures with return, procedures without
   // return]. We only have the latter.
 
-  var procs = Blockly.Procedures.allProcedures(blocklyWorkspace)[0];
+  var procs = Blockly.Procedures.allProcedures(workspace)[0];
   // TODO
 
   // Find the procedure in the list with the given name.
