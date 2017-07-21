@@ -43,6 +43,8 @@ function setStatementExpression(block, isExpression) {
 function contextMenuPlusPlus(options) {
   var isExpression = !!this.outputConnection;
   var block = this;
+
+  // Toggle between expression and statement.
   var option = {
     enabled: true,
     text: isExpression ? 'Convert to Statement' : 'Convert to Expression',
@@ -52,6 +54,7 @@ function contextMenuPlusPlus(options) {
   };
   options.push(option);
 
+  // Extract single selected block from stack.
   option = {
     enabled: true,
     text: 'Disconnect',
@@ -60,6 +63,33 @@ function contextMenuPlusPlus(options) {
     }
   };
   options.push(option);
+
+  // Allow default parameters to be toggled.
+  if (block.hasOwnProperty('defaultParameters')) {
+    option = {
+      enabled: true,
+      text: 'Toggle default parameters',
+      callback: function() {
+        for (var i = 0; i < block.defaultParameters.length; ++i) {
+          var parameter = block.defaultParameters[i];
+          var name = parameter.id.toUpperCase();
+          if (block.getInput(name) == null) {
+            block.appendValueInput(name)
+                 .appendField(parameter.id)
+                 .setAlign(Blockly.ALIGN_RIGHT);
+            var peeker = new Peeker(parameter.expression);
+            var parameter_block = parse(peeker, block.workspace);
+            block.getInput(name).connection.connect(parameter_block.outputConnection);
+          } else {
+            var child = block.getInputTargetBlock(name);
+            block.removeInput(name);
+            child.dispose();
+          }
+        }
+      }
+    }
+    options.push(option);
+  }
 }
 
 function mutationModeToDom(block, container) {
@@ -78,7 +108,6 @@ function domModeToMutation(element) {
   var isExpression = element.getAttribute('isexpression') == 'true';
   setStatementExpression(this, isExpression); 
 }
-
 
 var block_definitions = {
   'madeup_tube': {
@@ -142,7 +171,10 @@ var block_definitions = {
         "nextStatement": null,
         "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
         "tooltip": "",
-        "helpUrl": "http://www.example.com/"
+        "helpUrl": "http://www.example.com/",
+        "defaultParameters" : [
+          {id: 'flip', expression: '(BOOLEAN false)'},
+        ]
       },
     generator:
       function (block) {
@@ -566,7 +598,7 @@ var block_definitions = {
       {
         "message0": "%1 %2 %3",
         "args0": [
-          { "type": "input_value", "name": "A", "check": ["Integer", "Real"] },
+          { "type": "input_value", "name": "A", "check": ["Integer", "Real", "Array", "Mesh"] },
           {
             "type": "field_dropdown",
             "name": "OPERATOR",
@@ -579,20 +611,30 @@ var block_definitions = {
               [ "%", "%" ]
             ]
           },
-          { "type": "input_value", "name": "B", "check": ["Integer", "Real"] }
+          { "type": "input_value", "name": "B", "check": ["Integer", "Real", "Array", "Mesh"] }
         ],
         "inputsInline": true,
-        "output": ["Integer", "Real", "Path", "Mesh"],
+        "output": ["Integer", "Real", "Path", "Mesh", "Array"],
         "colour": Blockly.Blocks.madeup.EXPRESSION_HUE,
         "tooltip": "",
         "helpUrl": "http://www.example.com/"
       },
     generator:
       function (block) {
+        console.log(arguments);
         var dropdown_operator = block.getFieldValue('OPERATOR');
 
         var precedence;
-        if (dropdown_operator == '+' || dropdown_operator == '-') {
+
+        // If this is a subtraction from an identifier that appears as the
+        // first parameter to a function call [func a - 7, b, c], we need some
+        // parentheses [func (a - 7), b, c].
+        var block_a = block.getInputTargetBlock('A');
+        if (block.getParent().getChildren()[0] == block &&
+            dropdown_operator == '-' &&
+            block_a.type == 'variables_get' || block_a.type == 'procedures_callnoreturn') {
+          precedence = Blockly.Madeup.ORDER_FIRST_PARAMETER_SUBTRACTION;
+        } else if (dropdown_operator == '+' || dropdown_operator == '-') {
           precedence = Blockly.Madeup.ORDER_ADDITIVE;
         } else if (dropdown_operator == '*' || dropdown_operator == '/' || dropdown_operator == '//' || dropdown_operator == '%') {
           precedence = Blockly.Madeup.ORDER_MULTIPLICATIVE;
@@ -762,6 +804,26 @@ var block_definitions = {
       function (block) {
         var dropdown_boolean = block.getFieldValue('BOOLEAN');
         var code = dropdown_boolean.toLowerCase();
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
+  'madeup_center': {
+    config:
+      {
+        "message0": "center %1",
+        "args0": [
+          { "type": "input_value", "align": "RIGHT", "name": "OBJECT", "check": ["Mesh", "Path"] },
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var object = Blockly.Madeup.valueToCode(block, 'OBJECT', Blockly.Madeup.ORDER_FUNCTION_CALL_ONLY_PARAMETER);
+        var code = 'center ' + object;
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
@@ -1028,22 +1090,6 @@ var block_definitions = {
         return generateInMode(block, code, Blockly.Madeup.ORDER_LOGICAL_NOT);
       }
   },
-  'madeup_center': {
-    config:
-      {
-        "message0": "center",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
-        "tooltip": "",
-        "helpUrl": "http://www.example.com/"
-      },
-    generator:
-      function (block) {
-        var code = 'center';
-        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
-      }
-  },
   'madeup_identity': {
     config:
       {
@@ -1146,6 +1192,50 @@ var block_definitions = {
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
+  'madeup_dilate': {
+    config:
+      {
+        "message0": "dilate path %1 distance %2",
+        "args0": [
+          { "type": "input_value", "align": "RIGHT", "name": "PATH", "check": ["Path"] },
+          { "type": "input_value", "align": "RIGHT", "name": "DISTANCE", "check": ['Integer', 'Real'] },
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var value_path = Blockly.Madeup.valueToCode(block, 'PATH', Blockly.Madeup.ORDER_FUNCTION_CALL_FIRST_PARAMETER);
+        var value_distance = Blockly.Madeup.valueToCode(block, 'DISTANCE', Blockly.Madeup.ORDER_FUNCTION_CALL_NOT_FIRST_PARAMETER);
+        var code = 'dilate ' + value_path + ', ' + value_distance;
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
+  'madeup_loft': {
+    config:
+      {
+        "message0": "loft paths %1",
+        "args0": [
+          { "type": "input_value", "align": "RIGHT", "name": "PATHS", "check": ["Array"] },
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var value_paths = Blockly.Madeup.valueToCode(block, 'PATHS', Blockly.Madeup.ORDER_FUNCTION_CALL_ONLY_PARAMETER);
+        var code = 'loft ' + value_paths;
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
   'madeup_dowel': {
     config:
       {
@@ -1167,6 +1257,27 @@ var block_definitions = {
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
+  'madeup_return': {
+    config:
+      {
+        "message0": "return %1",
+        "args0": [
+          { "type": "input_value", "align": "RIGHT", "name": "VALUE" },
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var value_object = Blockly.Madeup.valueToCode(block, 'VALUE', Blockly.Madeup.ORDER_FUNCTION_CALL_ONLY_PARAMETER);
+        var code = 'return ' + value_object;
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
   'madeup_echo': {
     config:
       {
@@ -1183,8 +1294,29 @@ var block_definitions = {
       },
     generator:
       function (block) {
-        var value_message = Blockly.Madeup.valueToCode(block, 'OBJECT', Blockly.Madeup.ORDER_FUNCTION_CALL_ONLY_PARAMETER);
-        var code = 'echo ' + value_message;
+        var value_object = Blockly.Madeup.valueToCode(block, 'OBJECT', Blockly.Madeup.ORDER_FUNCTION_CALL_ONLY_PARAMETER);
+        var code = 'echo ' + value_object;
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
+  'madeup_transform': {
+    config:
+      {
+        "message0": "transform %1",
+        "args0": [
+          { "type": "input_value", "align": "RIGHT", "name": "OBJECT", "check": ["Path", "Mesh"] },
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var value_object = Blockly.Madeup.valueToCode(block, 'OBJECT', Blockly.Madeup.ORDER_FUNCTION_CALL_ONLY_PARAMETER);
+        var code = 'transform ' + value_object;
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
@@ -1201,6 +1333,38 @@ var block_definitions = {
     generator:
       function (block) {
         var code = 'path';
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
+  'madeup_mode_add': {
+    config:
+      {
+        "message0": "add",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var code = 'add';
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
+  'madeup_mode_subtract': {
+    config:
+      {
+        "message0": "subtract",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var code = 'subtract';
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
@@ -1686,13 +1850,16 @@ for (var block_type in block_definitions) {
         init: function() {
           this.jsonInit(config);
           Blockly.addClass_(this.svgGroup_, 'wippo');
+          if (config.hasOwnProperty('defaultParameters')) {
+            this.defaultParameters = config.defaultParameters;
+            console.log("this:", this);
+          }
         },
         customContextMenu: contextMenuPlusPlus,
         mutationToDom: mutationToDom,
         domToMutation: domModeToMutation
       };
     })(block_definitions[block_type].config);
-    // Blockly.Madeup[block_type] = block_definitions[block_type].generator;
   }
 }
 

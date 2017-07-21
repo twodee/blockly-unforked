@@ -31,6 +31,7 @@ Blockly.Madeup.ORDER_LOGICAL_OR = 15;       // or
 Blockly.Madeup.ORDER_CONDITIONAL = 16;      // if else
 Blockly.Madeup.ORDER_FUNCTION_CALL_FIRST_PARAMETER = 30;     // ()
 Blockly.Madeup.ORDER_FUNCTION_CALL_ONLY_PARAMETER = 30;     // ()
+Blockly.Madeup.ORDER_FIRST_PARAMETER_SUBTRACTION = 31;          // + -
 Blockly.Madeup.ORDER_UNARY_NEGATION = 31;        // + -
 Blockly.Madeup.ORDER_FUNCTION_CALL_NOT_FIRST_PARAMETER = 32;     // ()
 Blockly.Madeup.ORDER_NONE = 99;             // (...)
