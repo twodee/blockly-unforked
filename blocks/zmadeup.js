@@ -598,7 +598,7 @@ var block_definitions = {
       {
         "message0": "%1 %2 %3",
         "args0": [
-          { "type": "input_value", "name": "A", "check": ["Integer", "Real", "Array", "Mesh"] },
+          { "type": "input_value", "name": "A", "check": ["Integer", "Real", "Array", "Mesh", "String"] },
           {
             "type": "field_dropdown",
             "name": "OPERATOR",
@@ -1682,7 +1682,7 @@ var block_definitions = {
       function(block) {
         var value_a = Blockly.Madeup.valueToCode(block, 'A', Blockly.Madeup.ORDER_ATOMIC);
         var value_b = Blockly.Madeup.valueToCode(block, 'B', Blockly.Madeup.ORDER_ATOMIC);
-        var code = 'cross ' + a + ', ' + b;
+        var code = 'cross ' + value_a + ', ' + value_b;
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
@@ -1704,7 +1704,7 @@ var block_definitions = {
       function(block) {
         var value_a = Blockly.Madeup.valueToCode(block, 'A', Blockly.Madeup.ORDER_ATOMIC);
         var value_b = Blockly.Madeup.valueToCode(block, 'B', Blockly.Madeup.ORDER_ATOMIC);
-        var code = 'dot ' + a + ', ' + b;
+        var code = 'dot ' + value_a + ', ' + value_b;
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
@@ -1733,7 +1733,7 @@ var block_definitions = {
       {
         "message0": "magnitude %1",
         "args0": [
-          { "type": "input_value", "align": "RIGHT", "name": "A", "check": "Array" },
+          { "type": "input_value", "align": "RIGHT", "name": "VECTOR", "check": "Array" },
         ],
         "inputsInline": true,
         "output": "Real",
@@ -1743,8 +1743,8 @@ var block_definitions = {
       },
     generator:
       function(block) {
-        var value_a = Blockly.Madeup.valueToCode(block, 'A', Blockly.Madeup.ORDER_ATOMIC);
-        var code = 'magnitude ' + a;
+        var value_a = Blockly.Madeup.valueToCode(block, 'VECTOR', Blockly.Madeup.ORDER_ATOMIC);
+        var code = 'magnitude ' + value_a;
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
@@ -1753,7 +1753,7 @@ var block_definitions = {
       {
         "message0": "normalize %1",
         "args0": [
-          { "type": "input_value", "align": "RIGHT", "name": "A", "check": "Array" },
+          { "type": "input_value", "align": "RIGHT", "name": "VECTOR", "check": "Array" },
         ],
         "inputsInline": true,
         "output": "Array",
@@ -1763,8 +1763,8 @@ var block_definitions = {
       },
     generator:
       function(block) {
-        var value_a = Blockly.Madeup.valueToCode(block, 'A', Blockly.Madeup.ORDER_ATOMIC);
-        var code = 'normalize ' + a;
+        var value_a = Blockly.Madeup.valueToCode(block, 'VECTOR', Blockly.Madeup.ORDER_ATOMIC);
+        var code = 'normalize ' + value_a;
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
