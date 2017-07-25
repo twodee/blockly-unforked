@@ -921,6 +921,29 @@ var block_definitions = {
         return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
       }
   },
+  'madeup_moveto_xy': {
+    config:
+      {
+        "message0": "moveto x %1 y %2",
+        "args0": [
+          { "type": "input_value", "align": "RIGHT", "name": "X", "check": ["Real", "Integer"] },
+          { "type": "input_value", "align": "RIGHT", "name": "Y", "check": ["Real", "Integer"] }
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
+        "tooltip": "",
+        "helpUrl": "http://www.example.com/"
+      },
+    generator:
+      function (block) {
+        var value_x = Blockly.Madeup.valueToCode(block, 'X', Blockly.Madeup.ORDER_FUNCTION_CALL_FIRST_PARAMETER);
+        var value_y = Blockly.Madeup.valueToCode(block, 'Y', Blockly.Madeup.ORDER_FUNCTION_CALL_NOT_FIRST_PARAMETER);
+        var code = 'moveto ' + value_x + ', ' + value_y;
+        return generateInMode(block, code, Blockly.Madeup.ORDER_ATOMIC);
+      }
+  },
   'madeup_move': {
     config:
       {
