@@ -80,19 +80,20 @@
   </xml>
 
   <script>
-    var workspace = Blockly.inject('blocklyDiv',
+    var demoWorkspace = Blockly.inject('blocklyDiv',
         {media: '../../media/',
          maxBlocks: 5,
          toolbox: document.getElementById('toolbox')});
 
     function onchange(event) {
-      document.getElementById('capacity').innerHTML =
-          workspace.remainingCapacity();
+      document.getElementById('capacity').textContent =
+          demoWorkspace.remainingCapacity();
     }
 
-    workspace.addChangeListener(onchange);
+    demoWorkspace.addChangeListener(onchange);
     onchange();
   </script>
 
 </body>
 </html>
+

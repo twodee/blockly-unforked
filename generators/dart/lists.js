@@ -80,7 +80,7 @@ Blockly.Dart['lists_indexOf'] = function(block) {
   var list = Blockly.Dart.valueToCode(block, 'VALUE',
       Blockly.Dart.ORDER_UNARY_POSTFIX) || '[]';
   var code = list + '.' + operator + '(' + item + ')';
-  if (Blockly.Dart.ONE_BASED_INDEXING) {
+  if (block.workspace.options.oneBasedIndex) {
     return [code + ' + 1', Blockly.Dart.ORDER_ADDITIVE];
   }
   return [code, Blockly.Dart.ORDER_UNARY_POSTFIX];
@@ -450,3 +450,13 @@ Blockly.Dart['lists_split'] = function(block) {
   var code = input + '.' + functionName + '(' + delimiter + ')';
   return [code, Blockly.Dart.ORDER_UNARY_POSTFIX];
 };
+
+Blockly.Dart['lists_reverse'] = function(block) {
+  // Block for reversing a list.
+  var list = Blockly.Dart.valueToCode(block, 'LIST',
+      Blockly.Dart.ORDER_NONE) || '[]';
+  // XXX What should the operator precedence be for a `new`?
+  var code = 'new List.from(' + list + '.reversed)';
+  return [code, Blockly.Dart.ORDER_UNARY_POSTFIX];
+};
+

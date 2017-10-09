@@ -1,9 +1,5 @@
 goog.require('Blockly.Blocks');
-goog.provide('Blockly.Blocks.madeup');
-
-Blockly.Blocks.madeup.EXPRESSION_HUE = 210;
-Blockly.Blocks.madeup.LITERAL_HUE = 315;
-Blockly.Blocks.madeup.STATEMENT_HUE = 180;
+goog.require('Blockly.Blocks.madeup');
 
 function getBlocklyProcedureFormals(workspace, name) {
   // allProcedures gives back [procedures with return, procedures without
@@ -1872,10 +1868,10 @@ for (var block_type in block_definitions) {
       Blockly.Blocks[block_type] = {
         init: function() {
           this.jsonInit(config);
-          Blockly.addClass_(this.svgGroup_, 'wippo');
+          // Blockly.addClass_(this.svgGroup_, 'wippo');
           if (config.hasOwnProperty('defaultParameters')) {
             this.defaultParameters = config.defaultParameters;
-            console.log("this:", this);
+            // console.log("this:", this);
           }
         },
         customContextMenu: contextMenuPlusPlus,
@@ -2064,13 +2060,19 @@ Blockly.Blocks['math_change'] = null;
 
 // Blockly makes the function definition blocks for us. Let's tweak them
 // so they can change betweeen statements and expressions.
-function extendBuiltin(id) {
-  var oldContextMenu = Blockly.Blocks[id].customContextMenu;
-  Blockly.Blocks[id].customContextMenu = function(options) {
+function builtinTweak() {
+  var oldContextMenu = this.customContextMenu;
+  this.customContextMenu = function(options) {
     oldContextMenu.call(this, options);
     contextMenuPlusPlus.call(this, options);
   };
+}
 
+Blockly.Extensions.register('builtinTweak', builtinTweak);
+builtinTweak.call(Blockly.Blocks['procedures_defnoreturn']);
+builtinTweak.call(Blockly.Blocks['procedures_callnoreturn']);
+
+function extendBuiltin(id) {
   var oldDomToMutation = Blockly.Blocks[id].domToMutation;
   Blockly.Blocks[id].domToMutation = function(xmlElement) {
     oldDomToMutation.call(this, xmlElement);
@@ -2092,10 +2094,3 @@ extendBuiltin('procedures_defnoreturn');
 extendBuiltin('procedures_callnoreturn');
 extendBuiltin('variables_get');
 extendBuiltin('variables_set');
-
-Blockly.Blocks.variables.GET_HUE = Blockly.Blocks.madeup.LITERAL_HUE;
-Blockly.Blocks.variables.SET_HUE = Blockly.Blocks.madeup.STATEMENT_HUE;
-Blockly.Blocks.procedures.DEF_NO_RETURN_HUE = Blockly.Blocks.madeup.STATEMENT_HUE;
-Blockly.Blocks.procedures.DEF_RETURN_HUE = Blockly.Blocks.madeup.STATEMENT_HUE;
-Blockly.Blocks.procedures.CALL_NO_RETURN_HUE = Blockly.Blocks.madeup.STATEMENT_HUE;
-Blockly.Blocks.procedures.CALL_RETURN_HUE = Blockly.Blocks.madeup.EXPRESSION_HUE;

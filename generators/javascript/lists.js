@@ -88,7 +88,7 @@ Blockly.JavaScript['lists_indexOf'] = function(block) {
   var list = Blockly.JavaScript.valueToCode(block, 'VALUE',
       Blockly.JavaScript.ORDER_MEMBER) || '[]';
   var code = list + '.' + operator + '(' + item + ')';
-  if (Blockly.JavaScript.ONE_BASED_INDEXING) {
+  if (block.workspace.options.oneBasedIndex) {
     return [code + ' + 1', Blockly.JavaScript.ORDER_ADDITION];
   }
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
@@ -392,3 +392,12 @@ Blockly.JavaScript['lists_split'] = function(block) {
   var code = input + '.' + functionName + '(' + delimiter + ')';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
+
+Blockly.JavaScript['lists_reverse'] = function(block) {
+  // Block for reversing a list.
+  var list = Blockly.JavaScript.valueToCode(block, 'LIST',
+      Blockly.JavaScript.ORDER_FUNCTION_CALL) || '[]';
+  var code = list + '.slice().reverse()';
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+

@@ -87,9 +87,9 @@ Blockly.Lua.ORDER_OR = 9;              // or
 Blockly.Lua.ORDER_NONE = 99;
 
 /**
- * Lua is not supporting zero-indexing since the language itself is one-indexed,
- * so there is not flag for ONE_BASED_INDEXING to indicate which indexing is
- * used for lists and text.
+ * Note: Lua is not supporting zero-indexing since the language itself is
+ * one-indexed, so the generator does not repoct the oneBasedIndex configuration
+ * option used for lists and text.
  */
 
 /**
@@ -192,3 +192,4 @@ Blockly.Lua.scrub_ = function(block, code) {
   var nextCode = Blockly.Lua.blockToCode(nextBlock);
   return commentCode + code + nextCode;
 };
+
