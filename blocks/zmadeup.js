@@ -620,7 +620,6 @@ var block_definitions = {
       },
     generator:
       function (block) {
-        console.log(arguments);
         var dropdown_operator = block.getFieldValue('OPERATOR');
 
         var precedence;
@@ -1874,7 +1873,6 @@ for (var block_type in block_definitions) {
           // Blockly.addClass_(this.svgGroup_, 'wippo');
           if (config.hasOwnProperty('defaultParameters')) {
             this.defaultParameters = config.defaultParameters;
-            // console.log("this:", this);
           }
         },
         customContextMenu: contextMenuPlusPlus,
