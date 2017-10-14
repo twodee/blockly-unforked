@@ -340,4 +340,3 @@ BlockFactory.manualEdit = function() {
   BlockFactory.updateBlocksFlagDelayed = true;
   BlockFactory.updateLanguage();
 }
-

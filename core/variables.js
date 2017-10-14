@@ -363,4 +363,3 @@ Blockly.Variables.generateVariableFieldXml_ = function(variableModel) {
   var xmlString = Blockly.Xml.domToText(element);
   return xmlString;
 };
-

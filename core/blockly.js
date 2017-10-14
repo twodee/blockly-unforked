@@ -545,4 +545,3 @@ if (!goog.global['Blockly']) {
 }
 goog.global['Blockly']['getMainWorkspace'] = Blockly.getMainWorkspace;
 goog.global['Blockly']['addChangeListener'] = Blockly.addChangeListener;
-

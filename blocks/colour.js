@@ -134,4 +134,3 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "tooltip": "%{BKY_COLOUR_BLEND_TOOLTIP}"
   }
 ]);  // END JSON EXTRACT (Do not delete this comment.)
-

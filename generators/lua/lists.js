@@ -380,4 +380,3 @@ Blockly.Lua['lists_reverse'] = function(block) {
   var code = 'list_reverse(' + list + ')';
   return [code, Blockly.Lua.ORDER_HIGH];
 };
-

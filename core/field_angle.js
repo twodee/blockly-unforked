@@ -318,4 +318,3 @@ Blockly.FieldAngle.prototype.classValidator = function(text) {
   }
   return String(n);
 };
-

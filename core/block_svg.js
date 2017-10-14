@@ -1551,4 +1551,3 @@ Blockly.BlockSvg.prototype.scheduleSnapAndBump = function() {
     Blockly.Events.setGroup(false);
   }, Blockly.BUMP_DELAY);
 };
-

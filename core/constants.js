@@ -265,4 +265,3 @@ Blockly.RENAME_VARIABLE_ID = 'RENAME_VARIABLE_ID';
  * @const {string}
  */
 Blockly.DELETE_VARIABLE_ID = 'DELETE_VARIABLE_ID';
-

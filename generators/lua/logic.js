@@ -126,4 +126,3 @@ Blockly.Lua['logic_ternary'] = function(block) {
   var code = value_if + ' and ' + value_then + ' or ' + value_else;
   return [code, Blockly.Lua.ORDER_OR];
 };
-

@@ -698,4 +698,3 @@ Blockly.Toolbox.TreeSeparator = function(config) {
   Blockly.Toolbox.TreeNode.call(this, null, '', config);
 };
 goog.inherits(Blockly.Toolbox.TreeSeparator, Blockly.Toolbox.TreeNode);
-

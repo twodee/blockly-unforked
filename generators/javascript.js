@@ -315,4 +315,3 @@ Blockly.JavaScript.getAdjusted = function(block, atId, opt_delta, opt_negate,
   }
   return at;
 };
-

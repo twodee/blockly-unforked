@@ -126,4 +126,3 @@ Blockly.Dart['colour_blend'] = function(block) {
   var code = functionName + '(' + c1 + ', ' + c2 + ', ' + ratio + ')';
   return [code, Blockly.Dart.ORDER_UNARY_POSTFIX];
 };
-

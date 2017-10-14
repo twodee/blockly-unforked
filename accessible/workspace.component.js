@@ -104,4 +104,3 @@ blocklyApp.WorkspaceComponent = ng.core.Component({
         this.workspace.topBlocks_.length);
   }
 });
-

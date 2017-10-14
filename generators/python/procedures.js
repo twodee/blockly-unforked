@@ -123,4 +123,3 @@ Blockly.Python['procedures_ifreturn'] = function(block) {
   }
   return code;
 };
-

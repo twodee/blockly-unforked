@@ -246,4 +246,3 @@ Blockly.FieldVariable.prototype.onItemSelected = function(menu, menuItem) {
     this.setValue(itemText);
   }
 };
-

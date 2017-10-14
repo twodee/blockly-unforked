@@ -345,4 +345,3 @@ Blockly.Dart['text_reverse'] = function(block) {
   // XXX What should the operator precedence be for a `new`?
   return [code, Blockly.Dart.ORDER_UNARY_POSTFIX];
 };
-

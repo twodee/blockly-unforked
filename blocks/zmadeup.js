@@ -1,5 +1,8 @@
 goog.require('Blockly.Blocks');
-goog.require('Blockly.Blocks.madeup');
+goog.provide('Blockly.Blocks.madeup');
+
+Blockly.Blocks.madeup.EXPRESSION_HUE = 315;
+Blockly.Blocks.madeup.STATEMENT_HUE = 180;
 
 function getBlocklyProcedureFormals(workspace, name) {
   // allProcedures gives back [procedures with return, procedures without
@@ -538,7 +541,7 @@ var block_definitions = {
         ],
         "inputsInline": false,
         "output": "String",
-        "colour": Blockly.Blocks.madeup.LITERAL_HUE,
+        "colour": Blockly.Blocks.madeup.EXPRESSION_HUE,
         "tooltip": "",
         "helpUrl": "http://www.example.com/"
       },
@@ -732,7 +735,7 @@ var block_definitions = {
         ],
         "inputsInline": false,
         "output": "Integer",
-        "colour": Blockly.Blocks.madeup.LITERAL_HUE,
+        "colour": Blockly.Blocks.madeup.EXPRESSION_HUE,
         "tooltip": "",
         "helpUrl": "http://www.example.com/"
       },
@@ -751,7 +754,7 @@ var block_definitions = {
         ],
         "inputsInline": false,
         "output": "Real",
-        "colour": Blockly.Blocks.madeup.LITERAL_HUE,
+        "colour": Blockly.Blocks.madeup.EXPRESSION_HUE,
         "tooltip": "",
         "helpUrl": "http://www.example.com/"
       },
@@ -766,7 +769,7 @@ var block_definitions = {
       {
         "message0": "nothing",
         "output": "Nothing",
-        "colour": Blockly.Blocks.madeup.LITERAL_HUE,
+        "colour": Blockly.Blocks.madeup.EXPRESSION_HUE,
         "tooltip": "",
         "helpUrl": "http://www.example.com/"
       },
@@ -792,7 +795,7 @@ var block_definitions = {
         ],
         "inputsInline": true,
         "output": "Boolean",
-        "colour": Blockly.Blocks.madeup.LITERAL_HUE,
+        "colour": Blockly.Blocks.madeup.EXPRESSION_HUE,
         "tooltip": "",
         "helpUrl": "http://www.example.com/"
       },
@@ -2053,44 +2056,50 @@ Blockly.Blocks['procedures_defreturn'] = null;
 // Blockly.Blocks['procedures_callreturn'] = null;
 
 // When you create a new variable, Blockly wants to create a setter, an rvalue,
-// and a changer. We don't want to the changer.
+// and a changer. We don't want the changer.
 Blockly.Blocks['math_change'] = null;
 
-// Blockly.Blocks['procedures_callreturn'].defType_ = 'procedures_defnoreturn';
+function customizeBlock(id, hue) {
+  var oldInitializer = Blockly.Blocks[id].init;
+  Blockly.Blocks[id].init = function() {
+    oldInitializer.call(this);
+    this.setColour(hue);
 
-// Blockly makes the function definition blocks for us. Let's tweak them
-// so they can change betweeen statements and expressions.
-function builtinTweak() {
-  var oldContextMenu = this.customContextMenu;
-  this.customContextMenu = function(options) {
-    oldContextMenu.call(this, options);
-    contextMenuPlusPlus.call(this, options);
-  };
-}
-
-Blockly.Extensions.register('builtinTweak', builtinTweak);
-builtinTweak.call(Blockly.Blocks['procedures_defnoreturn']);
-builtinTweak.call(Blockly.Blocks['procedures_callnoreturn']);
-
-function extendBuiltin(id) {
-  var oldDomToMutation = Blockly.Blocks[id].domToMutation;
-  Blockly.Blocks[id].domToMutation = function(xmlElement) {
-    oldDomToMutation.call(this, xmlElement);
-    domModeToMutation.call(this, xmlElement);
-  };
-
-  // Not every block has a mutation.
-  var oldMutationToDom = Blockly.Blocks[id].mutationToDom;
-  if (oldMutationToDom) {
-    Blockly.Blocks[id].mutationToDom = function() {
-      var container = oldMutationToDom.call(this);
-      mutationModeToDom(this, container);
-      return container;
+    var oldContextMenu = this.customContextMenu;
+    this.customContextMenu = function(options) {
+      oldContextMenu.call(this, options);
+      contextMenuPlusPlus.call(this, options);
     };
+
+    var oldDomToMutation = Blockly.Blocks[id].domToMutation;
+    Blockly.Blocks[id].domToMutation = function(xmlElement) {
+      oldDomToMutation.call(this, xmlElement);
+      domModeToMutation.call(this, xmlElement);
+    };
+
+    // Not every block has a mutation.
+    var oldMutationToDom = Blockly.Blocks[id].mutationToDom;
+    if (oldMutationToDom) {
+      Blockly.Blocks[id].mutationToDom = function() {
+        var container = oldMutationToDom.call(this);
+        mutationModeToDom(this, container);
+        return container;
+      };
+    }
   }
 }
 
-extendBuiltin('procedures_defnoreturn');
-extendBuiltin('procedures_callnoreturn');
-extendBuiltin('variables_get');
-extendBuiltin('variables_set');
+customizeBlock('variables_get', Blockly.Blocks.madeup.EXPRESSION_HUE);
+customizeBlock('variables_set', Blockly.Blocks.madeup.STATEMENT_HUE);
+customizeBlock('procedures_defnoreturn', Blockly.Blocks.madeup.STATEMENT_HUE);
+customizeBlock('procedures_callnoreturn', Blockly.Blocks.madeup.STATEMENT_HUE);
+
+function addStatementConnectors(id) {
+  var oldInitializer = Blockly.Blocks[id].init;
+  Blockly.Blocks[id].init = function() {
+    oldInitializer.call(this);
+    this.setNextStatement(true);
+    this.setPreviousStatement(true);
+  }
+}
+addStatementConnectors('procedures_defnoreturn');

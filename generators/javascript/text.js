@@ -350,4 +350,3 @@ Blockly.JavaScript['text_reverse'] = function(block) {
   var code = text + '.split(\'\').reverse().join(\'\')';
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
-

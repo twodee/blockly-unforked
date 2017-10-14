@@ -413,4 +413,3 @@ Blockly.Generator.prototype.finish = undefined;
  * @return {string} Legal line of code.
  */
 Blockly.Generator.prototype.scrubNakedValue = undefined;
-

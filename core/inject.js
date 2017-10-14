@@ -391,4 +391,3 @@ Blockly.updateToolbox = function(tree) {
                'use workspace.updateToolbox instead.');
   Blockly.getMainWorkspace().updateToolbox(tree);
 };
-

@@ -126,4 +126,3 @@ Blockly.Dart['logic_ternary'] = function(block) {
   var code = value_if + ' ? ' + value_then + ' : ' + value_else;
   return [code, Blockly.Dart.ORDER_CONDITIONAL];
 };
-

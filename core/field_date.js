@@ -336,4 +336,3 @@ Blockly.FieldDate.CSS = [
   '  color: #fff;',
   '}'
 ];
-

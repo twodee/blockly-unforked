@@ -224,4 +224,3 @@ Blockly.FieldColour.widgetDispose_ = function() {
   }
   Blockly.Events.setGroup(false);
 };
-

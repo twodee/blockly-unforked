@@ -34,4 +34,3 @@ blocklyApp.TranslatePipe = ng.core.Pipe({
     return Blockly.Msg[messageId];
   }
 });
-

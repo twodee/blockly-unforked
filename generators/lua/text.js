@@ -359,4 +359,3 @@ Blockly.Lua['text_reverse'] = function(block) {
   var code = 'string.reverse(' + text + ')';
   return [code, Blockly.Lua.ORDER_HIGH];
 };
-

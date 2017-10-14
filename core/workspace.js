@@ -624,4 +624,3 @@ Blockly.Workspace.prototype['addChangeListener'] =
     Blockly.Workspace.prototype.addChangeListener;
 Blockly.Workspace.prototype['removeChangeListener'] =
     Blockly.Workspace.prototype.removeChangeListener;
-

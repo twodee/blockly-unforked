@@ -556,4 +556,3 @@ Blockly.Field.prototype.setTooltip = function(newTip) {
 Blockly.Field.prototype.getAbsoluteXY_ = function() {
   return goog.style.getPageOffset(this.borderRect_);
 };
-

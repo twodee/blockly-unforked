@@ -620,4 +620,3 @@ Blockly.Constants.Logic.LOGIC_TERNARY_ONCHANGE_MIXIN = {
 
 Blockly.Extensions.registerMixin('logic_ternary',
   Blockly.Constants.Logic.LOGIC_TERNARY_ONCHANGE_MIXIN);
-

@@ -855,4 +855,3 @@ Blockly.Scrollbar.prototype.set = function(value) {
 Blockly.Scrollbar.prototype.setOrigin = function(x, y) {
   this.origin_ = new goog.math.Coordinate(x, y);
 };
-

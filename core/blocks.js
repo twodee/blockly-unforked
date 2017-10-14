@@ -35,4 +35,3 @@ goog.provide('Blockly.Blocks');
  * @type {!Object<string,Object>}
  */
 Blockly.Blocks = new Object(null);
-

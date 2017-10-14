@@ -992,4 +992,3 @@ Blockly.BlockSvg.prototype.renderDrawLeft_ = function(steps, highlightSteps) {
   }
   steps.push('z');
 };
-

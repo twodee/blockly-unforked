@@ -903,4 +903,3 @@ function inputNameCheck(referenceBlock) {
       'There are ' + count + ' input blocks\n with this name.' : null;
   referenceBlock.setWarningText(msg);
 }
-

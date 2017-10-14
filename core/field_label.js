@@ -102,4 +102,3 @@ Blockly.FieldLabel.prototype.getSvgRoot = function() {
 Blockly.FieldLabel.prototype.setTooltip = function(newTip) {
   this.textElement_.tooltip = newTip;
 };
-

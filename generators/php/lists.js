@@ -510,4 +510,3 @@ Blockly.PHP['lists_reverse'] = function(block) {
   var code = 'array_reverse(' + list + ')';
   return [code, Blockly.PHP.ORDER_FUNCTION_CALL];
 };
-

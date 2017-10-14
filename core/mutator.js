@@ -403,4 +403,3 @@ if (!goog.global['Blockly']['Mutator']) {
   goog.global['Blockly']['Mutator'] = {};
 }
 goog.global['Blockly']['Mutator']['reconnect'] = Blockly.Mutator.reconnect;
-

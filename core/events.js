@@ -1106,4 +1106,3 @@ Blockly.Events.disableOrphans = function(event) {
     Blockly.Events.enable();
   }
 };
-

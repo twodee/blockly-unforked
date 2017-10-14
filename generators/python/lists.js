@@ -361,4 +361,3 @@ Blockly.Python['lists_reverse'] = function(block) {
   var code = 'list(reversed(' + list + '))';
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
-

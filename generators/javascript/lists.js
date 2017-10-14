@@ -400,4 +400,3 @@ Blockly.JavaScript['lists_reverse'] = function(block) {
   var code = list + '.slice().reverse()';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
-

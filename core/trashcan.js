@@ -331,4 +331,3 @@ Blockly.Trashcan.prototype.click = function() {
   }
   console.log('TODO: Inspect trash.');
 };
-

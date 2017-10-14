@@ -245,4 +245,3 @@ Blockly.ZoomControls.prototype.position = function() {
   this.svgGroup_.setAttribute('transform',
       'translate(' + this.left_ + ',' + this.top_ + ')');
 };
-

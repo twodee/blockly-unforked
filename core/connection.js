@@ -661,4 +661,3 @@ Blockly.Connection.prototype.toString = function() {
   }
   return msg + block.toDevString();
 };
-

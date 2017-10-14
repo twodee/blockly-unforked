@@ -201,4 +201,3 @@ Blockly.ContextMenu.callbackFactory = function(block, xml) {
     newBlock.select();
   };
 };
-

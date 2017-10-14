@@ -360,4 +360,3 @@
 	"PROCEDURES_IFRETURN_TOOLTIP": "1番目の値が true の場合、2番目の値を返します。",
 	"PROCEDURES_IFRETURN_WARNING": "警告: このブロックは、関数定義内でのみ使用できます。"
 }
-

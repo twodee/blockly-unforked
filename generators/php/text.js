@@ -277,4 +277,3 @@ Blockly.PHP['text_reverse'] = function(block) {
   var code = 'strrev(' + text + ')';
   return [code, Blockly.PHP.ORDER_FUNCTION_CALL];
 };
-

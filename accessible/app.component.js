@@ -107,4 +107,3 @@ blocklyApp.AppComponent = ng.core.Component({
     return this.notificationsService.getDisplayedMessage();
   }
 });
-

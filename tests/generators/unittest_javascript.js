@@ -179,4 +179,3 @@ Blockly.JavaScript['unittest_adjustindex'] = function(block) {
   }
   return [index, Blockly.JavaScript.ORDER_ADDITION];
 };
-

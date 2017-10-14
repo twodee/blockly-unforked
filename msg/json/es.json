@@ -348,4 +348,3 @@
 	"PROCEDURES_IFRETURN_TOOLTIP": "Si un valor es verdadero, entonces devuelve un segundo valor.",
 	"PROCEDURES_IFRETURN_WARNING": "Advertencia: Este bloque solo puede ser utilizado dentro de la definición de una función."
 }
-

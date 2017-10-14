@@ -36,9 +36,6 @@ goog.require('Blockly.Blocks');
 goog.require('Blockly');
 
 
-Blockly.Blocks.variables.GET_HUE = null;
-Blockly.Blocks.variables.SET_HUE = null;
-
 /**
  * Common HSV hue for all blocks in this category.
  * Should be the same as Blockly.Msg.VARIABLES_HUE.
@@ -61,10 +58,10 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       }
     ],
     "output": null,
-    "colour": "%{BKY_VARIABLES_GET_HUE}",
+    "colour": "%{BKY_VARIABLES_HUE}",
     "helpUrl": "%{BKY_VARIABLES_GET_HELPURL}",
     "tooltip": "%{BKY_VARIABLES_GET_TOOLTIP}",
-    "extensions": ["contextMenu_variableSetterGetter", 'builtinTweak']
+    "extensions": ["contextMenu_variableSetterGetter"]
   },
   // Block for variable setter.
   {
@@ -83,10 +80,10 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "%{BKY_VARIABLES_SET_HUE}",
+    "colour": "%{BKY_VARIABLES_HUE}",
     "tooltip": "%{BKY_VARIABLES_SET_TOOLTIP}",
     "helpUrl": "%{BKY_VARIABLES_SET_HELPURL}",
-    "extensions": ["contextMenu_variableSetterGetter", 'builtinTweak']
+    "extensions": ["contextMenu_variableSetterGetter"]
   }
 ]);  // END JSON EXTRACT (Do not delete this comment.)
 

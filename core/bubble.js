@@ -584,4 +584,3 @@ Blockly.Bubble.prototype.dispose = function() {
   this.content_ = null;
   this.shape_ = null;
 };
-

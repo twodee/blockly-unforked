@@ -85,4 +85,3 @@ skip_files:
 - ^closure-library/closure/bin/.*$
 - ^closure-library/doc/.*$
 - ^closure-library/scripts/.*$
-

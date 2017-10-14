@@ -150,4 +150,3 @@ Blockly.Python['unittest_adjustindex'] = function(block) {
   }
   return [index, Blockly.Python.ORDER_ADDITIVE];
 };
-

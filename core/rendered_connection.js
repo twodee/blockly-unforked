@@ -418,4 +418,3 @@ Blockly.RenderedConnection.prototype.onCheckChanged_ = function() {
     this.sourceBlock_.bumpNeighbours_();
   }
 };
-

@@ -59,4 +59,3 @@ blocklyApp.NotificationsService = ng.core.Class({
     }, 5000));
   }
 });
-

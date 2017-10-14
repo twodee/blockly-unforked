@@ -288,4 +288,3 @@
 	"PROCEDURES_IFRETURN_TOOLTIP": "Si el valor és cert, llavors retorna un segon valor.",
 	"PROCEDURES_IFRETURN_WARNING": "Advertència: Aquest bloc només es pot utilitzar dins de la definició d'una funció."
 }
-

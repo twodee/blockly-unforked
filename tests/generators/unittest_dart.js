@@ -175,4 +175,3 @@ Blockly.Dart['unittest_adjustindex'] = function(block) {
   }
   return [index, Blockly.Dart.ORDER_ADDITIVE];
 };
-

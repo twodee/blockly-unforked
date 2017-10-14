@@ -333,4 +333,3 @@ Blockly.Tooltip.show_ = function() {
   Blockly.Tooltip.DIV.style.top = anchorY + 'px';
   Blockly.Tooltip.DIV.style.left = anchorX + 'px';
 };
-

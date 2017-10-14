@@ -126,4 +126,3 @@ Blockly.Python['logic_ternary'] = function(block) {
   var code = value_then + ' if ' + value_if + ' else ' + value_else;
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
-

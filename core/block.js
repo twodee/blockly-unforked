@@ -1520,4 +1520,3 @@ Blockly.Block.prototype.toDevString = function() {
   }
   return msg;
 };
-

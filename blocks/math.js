@@ -565,4 +565,3 @@ Blockly.Constants.Math.LIST_MODES_MUTATOR_EXTENSION = function() {
 Blockly.Extensions.registerMutator('math_modes_of_list_mutator',
   Blockly.Constants.Math.LIST_MODES_MUTATOR_MIXIN,
   Blockly.Constants.Math.LIST_MODES_MUTATOR_EXTENSION);
-

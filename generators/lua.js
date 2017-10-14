@@ -192,4 +192,3 @@ Blockly.Lua.scrub_ = function(block, code) {
   var nextCode = Blockly.Lua.blockToCode(nextBlock);
   return commentCode + code + nextCode;
 };
-

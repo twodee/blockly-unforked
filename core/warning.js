@@ -183,4 +183,3 @@ Blockly.Warning.prototype.dispose = function() {
   this.block_.warning = null;
   Blockly.Icon.prototype.dispose.call(this);
 };
-

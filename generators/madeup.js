@@ -4,18 +4,6 @@ goog.provide('Blockly.Madeup');
 goog.require('Blockly.Generator');
 Blockly.Madeup = new Blockly.Generator('Madeup');
 
-Blockly.Variables.allUsedVariables = (function (proxied) {
-  return function (root) {
-    var list = proxied.call(this, root);
-    list.push('.rgb');
-    list.push('.innerRadius');
-    list.push('.outerRadius');
-    list.push('.radius');
-    list.push('nsides');
-    return list;
-  };
-})(Blockly.Variables.allUsedVariables);
-
 Blockly.Madeup.INDENT = '  ';            // 0 "" ...
 Blockly.Madeup.ORDER_ATOMIC = 0;            // 0 "" ...
 Blockly.Madeup.ORDER_ARRAY_OF = 2;

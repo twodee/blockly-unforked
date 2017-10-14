@@ -55,15 +55,12 @@ Blockly.Blocks['procedures_defnoreturn'] = {
         Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT) {
       this.setCommentText(Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT);
     }
-    this.setColour(Blockly.Msg.DEF_RETURN_HUE);
+    this.setColour(Blockly.Blocks.procedures.HUE);
     this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
     this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
     this.arguments_ = [];
     this.setStatements_(true);
     this.statementConnection_ = null;
-    // MINE
-    this.setNextStatement(true);
-    this.setPreviousStatement(true);
   },
   /**
    * Add or remove the statement block from this function definition.
@@ -354,7 +351,7 @@ Blockly.Blocks['procedures_defreturn'] = {
         Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT) {
       this.setCommentText(Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT);
     }
-    this.setColour(Blockly.Msg.DEF_RETURN_HUE);
+    this.setColour(Blockly.Blocks.procedures.HUE);
     this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
     this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
     this.arguments_ = [];
@@ -469,7 +466,7 @@ Blockly.Blocks['procedures_callnoreturn'] = {
         .appendField(this.id, 'NAME');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setColour(Blockly.Msg.CALL_NO_RETURN_HUE);
+    this.setColour(Blockly.Blocks.procedures.HUE);
     // Tooltip is set in renameProcedure.
     this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLNORETURN_HELPURL);
     this.arguments_ = [];
@@ -782,7 +779,7 @@ Blockly.Blocks['procedures_callreturn'] = {
     this.appendDummyInput('TOPROW')
         .appendField('', 'NAME');
     this.setOutput(true);
-    this.setColour(Blockly.Msg.CALL_RETURN_HUE);
+    this.setColour(Blockly.Blocks.procedures.HUE);
     // Tooltip is set in domToMutation.
     this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLRETURN_HELPURL);
     this.arguments_ = [];

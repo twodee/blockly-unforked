@@ -250,4 +250,3 @@ Blockly.WidgetDiv.calculateY_ = function(viewportBBox, anchorBBox, widgetSize) {
     return anchorBBox.bottom;
   }
 };
-

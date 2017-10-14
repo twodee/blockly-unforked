@@ -459,4 +459,3 @@ Blockly.Dart['lists_reverse'] = function(block) {
   var code = 'new List.from(' + list + '.reversed)';
   return [code, Blockly.Dart.ORDER_UNARY_POSTFIX];
 };
-

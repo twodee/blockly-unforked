@@ -622,4 +622,3 @@ developers.google.com/blockly/guides/modify/web/closure""")
   # to build langfiles will force the messages to be rebuilt.
   if ('langfiles' in args or 'defaultlangfiles' in args):
     Gen_langfiles('langfiles' in args).start()
-

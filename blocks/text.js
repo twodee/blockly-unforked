@@ -891,4 +891,3 @@ Blockly.Extensions.registerMutator('text_join_mutator',
 Blockly.Extensions.registerMutator('text_charAt_mutator',
   Blockly.Constants.Text.TEXT_CHARAT_MUTATOR_MIXIN,
   Blockly.Constants.Text.TEXT_CHARAT_EXTENSION);
-

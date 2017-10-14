@@ -364,4 +364,3 @@ function test_variablesToDom_noVariables() {
   assertEquals(1, resultDom.children.length);
   xmlTest_tearDown();
 }
-

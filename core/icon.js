@@ -203,4 +203,3 @@ Blockly.Icon.prototype.computeIconLocation = function() {
 Blockly.Icon.prototype.getIconLocation = function() {
   return this.iconXY_;
 };
-

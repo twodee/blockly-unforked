@@ -938,4 +938,3 @@ Blockly.utils.getViewportBBox = function() {
   };
 };
 
-

@@ -545,4 +545,3 @@ Blockly.FieldDropdown.prototype.dispose = function() {
   Blockly.WidgetDiv.hideIfOwner(this);
   Blockly.FieldDropdown.superClass_.dispose.call(this);
 };
-

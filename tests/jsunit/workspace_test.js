@@ -488,4 +488,3 @@ function test_deleteVariableById_Trivial() {
   assertEquals('name2', block_var_name);
   workspaceTest_tearDown();
 }
-

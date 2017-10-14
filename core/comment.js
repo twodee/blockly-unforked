@@ -276,4 +276,3 @@ Blockly.Comment.prototype.dispose = function() {
   this.block_.comment = null;
   Blockly.Icon.prototype.dispose.call(this);
 };
-

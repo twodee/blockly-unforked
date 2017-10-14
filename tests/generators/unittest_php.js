@@ -185,4 +185,3 @@ Blockly.PHP['unittest_adjustindex'] = function(block) {
   }
   return [index, Blockly.PHP.ORDER_ADDITION];
 };
-

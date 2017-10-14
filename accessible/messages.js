@@ -60,4 +60,3 @@ Blockly.Msg.PASTED_BLOCK_FROM_CLIPBOARD_MSG = 'pasted. ';
 
 Blockly.Msg.PRESS_ENTER_TO_EDIT_NUMBER = 'Press Enter to edit number. ';
 Blockly.Msg.PRESS_ENTER_TO_EDIT_TEXT = 'Press Enter to edit text. ';
-
