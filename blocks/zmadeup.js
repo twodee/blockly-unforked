@@ -949,7 +949,7 @@ var block_definitions = {
         "args0": [
           { "type": "input_value", "name": "DISTANCE", "check": ["Real", "Integer"] },
         ],
-        "inputsInline": true,
+        "inputsInline": false,
         "previousStatement": null,
         "nextStatement": null,
         "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
@@ -979,7 +979,7 @@ var block_definitions = {
           },
           { "type": "input_value", "name": "DEGREES", "check": ["Real", "Integer"] },
         ],
-        "inputsInline": true,
+        "inputsInline": false,
         "previousStatement": null,
         "nextStatement": null,
         "colour": Blockly.Blocks.madeup.STATEMENT_HUE,
