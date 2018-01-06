@@ -194,7 +194,8 @@ Blockly.FieldVariable.dropdownCreate = function() {
     var newVar = workspace.createVariable(name);
     variableModelList.push(newVar);
   }
-  variableModelList.sort(Blockly.VariableModel.compareByName);
+  // TODO(crj)
+  // variableModelList.sort(Blockly.VariableModel.compareByName);
   var options = [];
   for (var i = 0; i < variableModelList.length; i++) {
     // Set the uuid as the internal representation of the variable.
